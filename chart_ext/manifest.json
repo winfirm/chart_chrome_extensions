@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "Chart Extensions",
+  "description": "Forex chart Helper",
+  "version": "1.0",
+  "action": {
+  	"default_title":"click to show charts",
+    "default_popup": "popup.html",
+    "default_icon": "chart_icon.png"
+  },
+  "homepage_url": "https://github.com/winfirm/chart_chrome_extensions",
+  "permissions": ["storage", "tabs","activeTab", "scripting", "declarativeContent"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+      {
+         "matches": [
+            "<all_urls>"
+         ],
+         "js": ["content.js"],
+         "css":[],
+         "run_at":"document_idle"
+      }
+   ]
+}
