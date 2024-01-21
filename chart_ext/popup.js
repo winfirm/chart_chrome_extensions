@@ -13,10 +13,10 @@ document.getElementById("next").onclick = function (e) {
   e.stopPropagation();
 }
 
-document.getElementById("more").onclick = function (e) {
-  chrome.tabs.create({ url: "https://www.winfirm.com.cn" });
-  e.stopPropagation();
-}
+// document.getElementById("more").onclick = function (e) {
+//   chrome.tabs.create({ url: "https://www.winfirm.com.cn" });
+//   e.stopPropagation();
+// }
 
 const titleEle = document.getElementById("title");
 
@@ -247,7 +247,7 @@ let series = [];
 let subSeries = [];
 
 const chart = LightweightCharts.createChart(document.getElementById("chart"), getChartOption(255, '#111111', 3.15));
-const subChart = LightweightCharts.createChart(document.getElementById("sub_chart"), getChartOption(225, '#111111', 2.65));
+const subChart = LightweightCharts.createChart(document.getElementById("sub_chart"), getChartOption(225, '#111111', 2.5));
 
 const loadDatas = (chart, subChart, symbol) => {
   fetch("https://api.winfirm.com.cn/datas/klines/" + symbol + "m%23")

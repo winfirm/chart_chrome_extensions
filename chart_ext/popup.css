@@ -3,7 +3,12 @@ body {
   font-family: 'Arial', sans-serif;
   text-align: center;
   padding: 0px;
-  margin: 1px;
+  margin: 3px auto;
+  background-color: black;
+}
+
+hr {
+  border: 0.5px dashed #999999;
 }
 
 .page{
@@ -13,32 +18,32 @@ body {
 .top_view{
   float: left;
   width: 100%;
-  text-align: center;
+  z-index: 2;
+  color: #999999;
+  margin-bottom: 5px;
 }
 
-.top_view .item{
+.top_view .left{
+  float: left;
+  font-size: 14px;
+  z-index: 3;
+}
+
+.top_view .button{
   font-size: 18px;
-  padding: 3px 0px 2px;
-}
-
-.button_view{
-  float: left;
-  clear: both;
-}
-
-.button_view .item{
-  margin-top: 3px;
-  float: left;
-  padding: 5px 0;
-  width:90px;
-  font-size: 16px;
   text-align: center;
+  background-color: transparent;
+  border: none;
+  color:#cccccc;
 }
 
-.button_view .right{
+.top_view .right{
   float: right;
-  padding: 5px 0;
+  font-size: 14px;
+  z-index: 3;
+}
+
+.top_view .more{
   width:40px;
   font-size: 12px;
-  text-align: right;
 }
