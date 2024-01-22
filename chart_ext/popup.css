@@ -4,18 +4,18 @@ body {
   text-align: center;
   padding: 0px;
   margin: 3px auto;
-  background-color: black;
+  background-color: #222222;
 }
 
 hr {
   border: 0.5px dashed #999999;
 }
 
-.page{
-	width:300px;
+.page {
+  width: 320px;
 }
 
-.top_view{
+.top_view {
   float: left;
   width: 100%;
   z-index: 2;
@@ -23,27 +23,27 @@ hr {
   margin-bottom: 5px;
 }
 
-.top_view .left{
+.top_view .left {
   float: left;
   font-size: 14px;
   z-index: 3;
 }
 
-.top_view .button{
+.top_view .button {
   font-size: 18px;
   text-align: center;
   background-color: transparent;
   border: none;
-  color:#cccccc;
+  color: #cccccc;
 }
 
-.top_view .right{
+.top_view .right {
   float: right;
   font-size: 14px;
   z-index: 3;
 }
 
-.top_view .more{
-  width:40px;
+.top_view .more {
+  width: 40px;
   font-size: 12px;
 }

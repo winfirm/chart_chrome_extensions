@@ -1,4 +1,33 @@
 // popup.js
+const SYMBOLS = [
+  "EURUSD", "GBPUSD", "AUDUSD", "NZDUSD",
+  "USDJPY", "USDCAD", "USDCHF", "GOLD",
+  "EURGBP", "EURJPY", "EURCHF", "EURAUD",
+  "EURCAD", "EURNZD", "GBPJPY", "GBPCHF",
+  "GBPAUD", "GBPCAD", "GBPNZD", "AUDJPY",
+  "AUDCHF", "AUDNZD", "AUDCAD", "CADJPY",
+  "CADCHF", "NZDJPY", "NZDCHF", "NZDCAD",
+  "CHFJPY"
+];
+
+const getIndex = () => {
+  let value = window.localStorage.getItem('index');
+  if (!value) {
+    value = 0;
+  }
+  return value;
+}
+
+const viewWidth = 320;
+
+const setIndex = (index) => {
+  window.localStorage.setItem('index', index);
+}
+
+let curIndex = getIndex();
+let series = [];
+let subSeries = [];
+
 document.addEventListener('DOMContentLoaded', function () {
   console.log('Popup loaded successfully!');
 });
@@ -135,7 +164,7 @@ const timestampToString = (timestamp) => {
 }
 
 const getChartOption = (height, color, barSpacing) => {
-  let width = 300;//(window.screen.width +1);
+  let width = viewWidth;//(window.screen.width +1);
   return {
     width,
     height,
@@ -199,29 +228,6 @@ const getChartOption = (height, color, barSpacing) => {
   };
 }
 
-const getIndex = () => {
-  let value = window.localStorage.getItem('index');
-  if (!value) {
-    value = 0;
-  }
-  return value;
-}
-
-const setIndex = (index) => {
-  window.localStorage.setItem('index', index);
-}
-
-const SYMBOLS = [
-  "EURUSD", "GBPUSD", "AUDUSD", "NZDUSD",
-  "USDJPY", "USDCAD", "USDCHF", "GOLD",
-  "EURGBP", "EURJPY", "EURCHF", "EURAUD",
-  "EURCAD", "EURNZD", "GBPJPY", "GBPCHF",
-  "GBPAUD", "GBPCAD", "GBPNZD", "AUDJPY",
-  "AUDCHF", "AUDNZD", "AUDCAD", "CADJPY",
-  "CADCHF", "NZDJPY", "NZDCHF", "NZDCAD",
-  "CHFJPY"
-];
-
 const prev = () => {
   if (curIndex > 0) {
     curIndex--;
@@ -242,12 +248,8 @@ const next = () => {
   request();
 }
 
-let curIndex = 0;
-let series = [];
-let subSeries = [];
-
-const chart = LightweightCharts.createChart(document.getElementById("chart"), getChartOption(255, '#111111', 3.15));
-const subChart = LightweightCharts.createChart(document.getElementById("sub_chart"), getChartOption(225, '#111111', 2.5));
+const chart = LightweightCharts.createChart(document.getElementById("chart"), getChartOption(225, '#222222', 3.5));
+const subChart = LightweightCharts.createChart(document.getElementById("sub_chart"), getChartOption(250, '#222222', 2.75));
 
 const loadDatas = (chart, subChart, symbol) => {
   fetch("https://api.winfirm.com.cn/datas/klines/" + symbol + "m%23")
