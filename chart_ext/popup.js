@@ -42,18 +42,38 @@ document.getElementById("next").onclick = function (e) {
   e.stopPropagation();
 }
 
+const keydown = (event) => {
+  switch (event.keyCode) {
+    case 37:
+      prev();
+      break;
+    case 32:
+    case 39:
+      next();
+      break;
+    case 13:
+      jump();
+      break;
+  }
+}
+
+document.addEventListener("keydown", keydown);
+
 // document.getElementById("more").onclick = function (e) {
 //   chrome.tabs.create({ url: "https://www.winfirm.com.cn" });
 //   e.stopPropagation();
 // }
 
 const titleEle = document.getElementById("title");
-
 titleEle.onclick = function (e) {
+  jump();
+  e.stopPropagation();
+}
+
+const jump = () => {
   let title = titleEle.innerText;
   console.log("title=" + title);
   chrome.tabs.create({ url: 'metatrader4://chart/' + title + 'm%23' });
-  e.stopPropagation();
 }
 
 const setTitle = (symbol) => {
@@ -272,4 +292,3 @@ const request = () => {
 
 //load default
 request();
-
