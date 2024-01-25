@@ -18,7 +18,7 @@ const getIndex = () => {
   return value;
 }
 
-const viewWidth = 320;
+const viewWidth = 450;
 
 const setIndex = (index) => {
   window.localStorage.setItem('index', index);
@@ -26,7 +26,6 @@ const setIndex = (index) => {
 
 let curIndex = getIndex();
 let series = [];
-let subSeries = [];
 
 document.addEventListener('DOMContentLoaded', function () {
   console.log('Popup loaded successfully!');
@@ -39,6 +38,11 @@ document.getElementById("prev").onclick = function (e) {
 
 document.getElementById("next").onclick = function (e) {
   next();
+  e.stopPropagation();
+}
+
+document.getElementById("pick").onclick = function (e) {
+  takeShot();
   e.stopPropagation();
 }
 
@@ -155,10 +159,7 @@ const show_chart = (chart, series, datas, time) => {
 
   let colors = time == 'D1' ? ['#ffffff', '#cc0000', '#0066ff'] : ['#0066ff', '#0066ff', '#0066ff', '#0066ff', '#0066ff']
   show_mas(chart, series, datas.mas, colors, mainPriceOption, '');
-
-  if (time != 'D1') {
-    show_mas(chart, series, datas.bolling, ['#cc0000', '#33cc00'], mainPriceOption, '');
-  }
+  show_mas(chart, series, datas.bolling, ['#cc0000', '#33cc00'], mainPriceOption, '');
 
   const macdPriceOption = {
     scaleMargins: {
@@ -268,17 +269,15 @@ const next = () => {
   request();
 }
 
-const chart = LightweightCharts.createChart(document.getElementById("chart"), getChartOption(225, '#222222', 3.5));
-const subChart = LightweightCharts.createChart(document.getElementById("sub_chart"), getChartOption(250, '#222222', 2.75));
+const chart = LightweightCharts.createChart(document.getElementById("chart"), getChartOption(300, '#222222', 4.75));
 
-const loadDatas = (chart, subChart, symbol) => {
+const loadDatas = (symbol) => {
   fetch("https://api.winfirm.com.cn/datas/klines/" + symbol + "m%23")
     .then(res => {
       return res.json();
     }).then(datas => {
       setTitle(symbol);
       show_chart(chart, series, datas.datas1, 'D1');
-      show_chart(subChart, subSeries, datas.datas2, 'H1');
     }).catch(e => {
       console.log(e)
     });
@@ -287,7 +286,56 @@ const loadDatas = (chart, subChart, symbol) => {
 const request = () => {
   let symbol = SYMBOLS[curIndex];
   setTitle(symbol);
-  loadDatas(chart, subChart, symbol);
+  loadDatas(symbol);
+}
+
+const getFileName=(date)=>{
+  return date.getFullYear()+''+alignTime(date.getMonth()+1)+''+alignTime(date.getDate())
+  +''+alignTime(date.getHours())+''+alignTime(date.getMinutes())+''
+  +alignTime(date.getSeconds());
+}
+
+const alignTime=(num)=>{
+  if(num<10){
+    return '0'+num;
+  }
+  return num;
+}
+
+const takeShot=()=>{
+  let fileName = 'shot_'+getFileName(new Date())+".jpg";
+
+  chart.takeScreenshot().toBlob(function(blob){
+    var downloadUrl = URL.createObjectURL(blob);
+    const link =document.createElement('a');
+    link.style.display='none';
+    link.href=downloadUrl;
+    link.download=fileName;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }, 'image/jpeg',1.0);
+
+  let chartEle = chart.takeScreenshot();
+  let base64 = chartEle.toDataURL('jpeg',1.0); //get a base64 image string
+  uploadShot(fileName,base64);
+}
+
+const uploadShot=(fileName,base64)=>{
+  fetch("https://api.winfirm.com.cn/datas/upload_pic", {
+    method:'post',
+    headers: {
+      'Content-Type':'application/json'
+    },
+    body:JSON.stringify({"name":fileName, "data": base64})
+  })
+  .then(res => {
+    return res.json();
+  }).then(datas => {
+    console.log(datas);
+  }).catch(e => {
+    console.log(e)
+  });
 }
 
 //load default

@@ -12,7 +12,7 @@ hr {
 }
 
 .page {
-  width: 320px;
+  width: 450px;
 }
 
 .top_view {
@@ -43,7 +43,7 @@ hr {
   z-index: 3;
 }
 
-.top_view .more {
-  width: 40px;
-  font-size: 12px;
+.top_view .pick {
+  margin-left: 5px;
+  font-size: 20px;
 }
